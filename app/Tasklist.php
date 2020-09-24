@@ -4,8 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class Tasklist extends Model
 {
+    //
+    
     protected $fillable = ['content'];
 
     /**
@@ -15,4 +17,5 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
+
 }
