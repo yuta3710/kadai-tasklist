@@ -11,8 +11,13 @@
         </aside>
         
         <div class="col-sm-8">
-                {{-- タスク一覧 --}}
-                @include('tasks.tasks')
-            </div>
+            {{-- ステータス一覧 --}}
+            @include('tasks.tasks')
+        </div>
+        
+        <div class="col-sm-8">
+            {{-- タスク一覧 --}}
+            @include('tasks.tasks')
+        </div>
     </div>
 @endsection

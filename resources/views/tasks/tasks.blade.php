@@ -12,6 +12,11 @@
                     </div>
                     
                     <div>
+                        {{-- ステータス --}}
+                        <p class="mb-0">{!! nl2br(e($task->status)) !!}</p>
+                    </div>
+                    
+                    <div>
                         {{-- タスク内容 --}}
                         <p class="mb-0">{!! nl2br(e($task->content)) !!}</p>
                     </div>

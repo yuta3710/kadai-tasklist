@@ -26,7 +26,7 @@ class TasksController extends Controller
             ];
         }
 
-        // Welcomeビューでそれらを表示
+        // Welcomeビューでそれらを表示 store
         return view('welcome', $data);
     }
     
@@ -37,9 +37,33 @@ class TasksController extends Controller
 
         // メッセージ作成ビューを表示
         return view('tasks.create', [
+            'status' => $task,
             'task' => $task,
         ]);
     }
+    
+    /*public function show(Request $request)
+    {
+        $request->validate([
+            'status' => 'required|max:10',   // 追加
+            'content' => 'required|max:255',
+        ]);
+        
+        // タスクを作成
+        $task = new Task;  //追加
+        $task->status = $request->status;    // 追加
+        $task->content = $request->content; //追加
+        $task->user_id = \Auth::user()->id;
+        $task->save();  //追加
+
+        // メッセージ詳細ビューでそれを表示
+        return view('tasks.show', [
+            'status' => $task,
+            'task' => $task,
+        ]);
+        
+         return redirect('/');
+    }*/
     
     public function store(Request $request)
     {
@@ -74,6 +98,7 @@ class TasksController extends Controller
 
         // メッセージ詳細ビューでそれを表示
         return view('tasks.show', [
+            'status' => $task,
             'task' => $task,
         ]);
     }
@@ -85,6 +110,7 @@ class TasksController extends Controller
 
          //メッセージ編集ビューでそれを表示
         return view('tasks.edit', [
+            'status' => $task,
             'task' => $task,
         ]);
     }
