@@ -27,7 +27,7 @@ class TasksController extends Controller
         }
 
         // Welcomeビューでそれらを表示 store
-        return view('welcome', $data);
+        return view('tasks.index', $data);
     }
     
     public function create() //追加
@@ -95,12 +95,18 @@ class TasksController extends Controller
     {
         //
         $task = Task::findOrFail($id);
-
-        // メッセージ詳細ビューでそれを表示
+        $user = Task::find($id)->user()->first();
+        
+        if (\Auth::id() === $task->user_id) {
+            
         return view('tasks.show', [
             'status' => $task,
             'task' => $task,
+            'user' => $user,
         ]);
+        }
+        // メッセージ詳細ビューでそれを表示
+        return redirect('/');
     }
     
     public function edit($id)
@@ -109,10 +115,14 @@ class TasksController extends Controller
         $task = Task::findOrFail($id);
 
          //メッセージ編集ビューでそれを表示
+        
         return view('tasks.edit', [
             'status' => $task,
             'task' => $task,
         ]);
+        
+        // 前のURLへリダイレクトさせる
+        return redirect('/');
     }
     
     public function update(Request $request, $id)
@@ -123,12 +133,16 @@ class TasksController extends Controller
             'content' => 'required|max:255',
         ]);
         
+        if (\Auth::id() === $task->user_id) {
+            
         //
         $task = Task::findOrFail($id);
         // メッセージを更新
         $task->status = $request->status;    // 追加
         $task->content = $request->content;
         $task->save();
+        }
+        
 
         // トップページへリダイレクトさせる
         return redirect('/');
@@ -137,14 +151,13 @@ class TasksController extends Controller
     public function destroy($id)
     {
         // idの値で投稿を検索して取得
-        $task = \App\Task::findOrFail($id);
+        $task = Task::findOrFail($id);
 
         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
         if (\Auth::id() === $task->user_id) {
             $task->delete();
         }
-
         // 前のURLへリダイレクトさせる
-        return back();
+        return redirect('/');
     }
 }
